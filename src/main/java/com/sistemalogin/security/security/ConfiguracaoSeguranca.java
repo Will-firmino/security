@@ -40,8 +40,16 @@ public class ConfiguracaoSeguranca {
       return http
          .authorizeHttpRequests(auth -> auth
             .requestMatchers("/", "/cadastro", "/css/**").permitAll()
+            .anyRequest().authenticated())
 
-         )
+         .formLogin(login -> login
+            .loginPage("/login")
+            .defaultSuccessUrl("/area-logada", true).permitAll())
+         
+         .logout(logout -> logout
+            .logoutSuccessUrl("/login?logout").permitAll())
+         
+         .build();      
    }
 
 }
